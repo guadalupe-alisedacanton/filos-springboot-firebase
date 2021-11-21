@@ -1,11 +1,11 @@
-package com.example.objects;
+package com.example;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class Student {
 
-    private int id;
+    private int studentId;
     private String name;
     private String email;
     private String major;
@@ -15,8 +15,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(int id, String name, String email, String major, String year) {
-        this.id = id;
+    public Student(int studentId, String name, String email, String major, String year) {
+        this.studentId = studentId;
         this.name = name;
         this.email = email;
         this.major = major;
@@ -40,14 +40,11 @@ public class Student {
     }
 
     public int getId() {
-        return id;
-    }
-    public String getStringId() {
-        return ""+id;
+        return studentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int studentId) {
+        this.studentId = studentId;
     }
 
     public String getName() {
@@ -69,7 +66,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "id=" + id +
+                "studentId=" + studentId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", major='" + major + '\'' +

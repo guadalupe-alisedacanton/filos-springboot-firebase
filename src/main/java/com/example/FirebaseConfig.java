@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
