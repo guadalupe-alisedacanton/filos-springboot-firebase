@@ -45,4 +45,37 @@ public class FirebaseService {
         return "Successfully delete " + studentId;
     }
 
+    public String createClass(Class class1) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("classes").document(class1.getId()).set(class1);
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    public Class getClass(String id) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("classes").document(id);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        Class class1;
+        if (document.exists()) {
+            class1 = document.toObject(Class.class);
+            return class1;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String updateClass(Class class1) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("classes").document(class1.getName()).set(class1);
+        return collectionsApiFuture.get().getUpdateTime().toString();
+
+    }
+
+    public String deleteClass(String id) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResult = dbFirestore.collection("classes").document(id).delete();
+        return "Successfully delete " + id;
+    }
 }

@@ -11,4 +11,5 @@ public class FirebaseConfig {
     public Firestore getDb() {
         return FirestoreClient.getFirestore();
     }
+
 }
