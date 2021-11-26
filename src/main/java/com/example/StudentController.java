@@ -25,8 +25,8 @@ public class StudentController {
     }
 
     @GetMapping("/getStudent")
-    public Student getStudent(@RequestParam String studentId) throws InterruptedException, ExecutionException {
-        return firebaseService.getStudent(studentId);
+    public Student getStudent(@RequestParam String studentEmail) throws InterruptedException, ExecutionException {
+        return firebaseService.getStudent(studentEmail);
     }
 
     @PutMapping("/updateStudent")
@@ -34,9 +34,26 @@ public class StudentController {
         return firebaseService.updateStudent(student);
     }
 
+    @PutMapping("/addCurrentClasses")
+    public String addCurrentClasses(@RequestParam String email, @RequestParam String classId) throws InterruptedException, ExecutionException {
+        firebaseService.addStudentToClass(classId, email);
+        return firebaseService.addToStudentsClasses(email, classId);
+    }
+
+    @PutMapping("/removeCurrentClasses")
+    public String removeCurrentClasses(@RequestParam String email, @RequestParam String classId) throws InterruptedException, ExecutionException {
+        firebaseService.dropStudentFromClass(classId, email);
+        return firebaseService.removeFromStudentsClasses(email, classId);
+    }
+
+    @PutMapping("/addInterest")
+    public String addInterest(@RequestParam String email, @RequestParam String newInterest) throws InterruptedException, ExecutionException {
+        return firebaseService.addInterest(email, newInterest);
+    }
+
     @DeleteMapping("/deleteStudent")
-    public String deleteStudent(@RequestParam String studentId) throws InterruptedException, ExecutionException {
-        return firebaseService.deleteStudent(studentId);
+    public String deleteStudent(@RequestParam String studentEmail) throws InterruptedException, ExecutionException {
+        return firebaseService.deleteStudent(studentEmail);
     }
 
     @GetMapping("/test")

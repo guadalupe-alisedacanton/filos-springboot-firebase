@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Component
@@ -14,7 +15,7 @@ public class Class {
     private int studentCount;
     private String professor;
     private String location;
-
+    private Set<String> taList;
 //    public Class(String name, String id, List<Student> studentsEnrolled, int studentCount, String professor, String location) {
 //        this.name = name;
 //        this.id = id;
@@ -77,6 +78,14 @@ public class Class {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Set<String> getTaList() {
+        return taList;
+    }
+
+    public void setTaList(Set<String> taList) {
+        this.taList = taList;
     }
 }
 
