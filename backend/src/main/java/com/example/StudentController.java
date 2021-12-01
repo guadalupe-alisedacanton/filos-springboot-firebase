@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 import java.util.function.IntToDoubleFunction;
-
+//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 public class StudentController {
 
@@ -19,8 +19,8 @@ public class StudentController {
     }
 
     @PostMapping("/createStudent")
+//    @RequestMapping(path = "/createStudent", method = RequestMethod.POST)
     public String createStudent(@RequestBody Student student) throws InterruptedException, ExecutionException {
-//        return firebaseService.saveStudentDetails(student);
         return firebaseService.createStudent(student);
     }
 

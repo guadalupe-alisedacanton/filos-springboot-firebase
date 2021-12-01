@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ClassController {
     public FirebaseService firebaseService;
@@ -17,6 +18,11 @@ public class ClassController {
 //        return firebaseService.saveStudentDetails(student);
         return firebaseService.createClass(class1);
     }
+
+//    @GetMapping("/getAllClasses")
+//    public Class getAllClasses() throws InterruptedException, ExecutionException {
+//        return firebaseService.getAllClasses();
+//    }
 
     @GetMapping("/getClass")
     public Class getClass(@RequestParam String id) throws InterruptedException, ExecutionException {

@@ -3,10 +3,15 @@ package com.example;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firestore.v1.Document;
 import com.google.firestore.v1.Write;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -77,6 +82,30 @@ public class FirebaseService {
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("classes").document(class1.getId()).set(class1);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
+
+//    public String getAllClasses() throws InterruptedException, ExecutionException {
+//        Firestore dbFirestore = FirestoreClient.getFirestore();
+//        ApiFuture<QuerySnapshot> future = dbFirestore.collection("classes").get();
+//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+//        List jsonObjectArray = new ArrayList();
+//        for (QueryDocumentSnapshot doc : documents) {
+//            DocumentReference classReference = dbFirestore.collection("classes").document(doc.getId());
+//            ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = classReference.get();
+//            DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
+//            Map obj = new HashMap();
+//            obj.put("name", documentSnapshot.getString("name"));
+//            obj.put("id", documentSnapshot.getString("id"));
+//            obj.put("studentCount", documentSnapshot.getString("studentCount"));
+//            obj.put("professor", documentSnapshot.getString("professor"));
+//            obj.put("location", documentSnapshot.getString("location"));
+//            List<String> studentsEnrolled = (List<String>) documentSnapshot.get("studentsEnrolled");
+//            obj.put("studentsEnrolled", studentsEnrolled);
+//            List<String> taList = (List<String>) documentSnapshot.get("taList");
+//            obj.put("taList", taList);
+//            jsonObjectArray.add(obj);
+//        }
+//        return jsonObjectArray
+//    }
 
     public Class getClass(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
