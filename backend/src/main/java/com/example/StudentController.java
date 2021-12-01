@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.Student;
 import com.example.FirebaseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,11 @@ public class StudentController {
     @GetMapping("/getStudent")
     public Student getStudent(@RequestParam String studentEmail) throws InterruptedException, ExecutionException {
         return firebaseService.getStudent(studentEmail);
+    }
+
+    @GetMapping("/getStudentsClasses")
+    public String getStudentsClasses(@RequestParam String studentEmail) throws InterruptedException, ExecutionException, JsonProcessingException {
+        return firebaseService.getStudentsClasses(studentEmail);
     }
 
     @PutMapping("/updateStudent")

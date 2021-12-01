@@ -1,5 +1,6 @@
 package com.example;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
@@ -15,18 +16,22 @@ public class ClassController {
 
     @PostMapping("/createClass")
     public String createClass(@RequestBody Class class1) throws InterruptedException, ExecutionException {
-//        return firebaseService.saveStudentDetails(student);
         return firebaseService.createClass(class1);
     }
 
-//    @GetMapping("/getAllClasses")
-//    public Class getAllClasses() throws InterruptedException, ExecutionException {
-//        return firebaseService.getAllClasses();
-//    }
+    @GetMapping("/getAllClasses")
+    public String getAllClasses() throws InterruptedException, ExecutionException, JsonProcessingException {
+        return firebaseService.getAllClasses();
+    }
 
     @GetMapping("/getClass")
     public Class getClass(@RequestParam String id) throws InterruptedException, ExecutionException {
         return firebaseService.getClass(id);
+    }
+
+    @GetMapping("/getEnrolledStudents")
+    public String getEnrolledStudents(@RequestParam String id) throws InterruptedException, ExecutionException, JsonProcessingException {
+        return firebaseService.getEnrolledStudents(id);
     }
 
     @PutMapping("/updateClass")

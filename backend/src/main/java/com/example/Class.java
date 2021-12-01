@@ -11,11 +11,11 @@ import java.util.Set;
 public class Class {
     private String name;
     private String id;
-    private List<Student> studentsEnrolled;
-    private int studentCount;
+    private List<String> studentsEnrolled;
+    private Long studentCount;
     private String professor;
     private String location;
-    private Set<String> taList;
+    private List<String> taList;
 //    public Class(String name, String id, List<Student> studentsEnrolled, int studentCount, String professor, String location) {
 //        this.name = name;
 //        this.id = id;
@@ -48,19 +48,19 @@ public class Class {
         this.id = id;
     }
 
-    public List<Student> getStudentsEnrolled() {
+    public List<String> getStudentsEnrolled() {
         return studentsEnrolled;
     }
 
-    public void setStudentsEnrolled(List<Student> studentsEnrolled) {
+    public void setStudentsEnrolled(List<String> studentsEnrolled) {
         this.studentsEnrolled = studentsEnrolled;
     }
 
-    public int getStudentCount() {
+    public Long getStudentCount() {
         return studentCount;
     }
 
-    public void setStudentCount(int studentCount) {
+    public void setStudentCount(Long studentCount) {
         this.studentCount = studentCount;
     }
 
@@ -80,11 +80,11 @@ public class Class {
         this.location = location;
     }
 
-    public Set<String> getTaList() {
+    public List<String> getTaList() {
         return taList;
     }
 
-    public void setTaList(Set<String> taList) {
+    public void setTaList(List<String> taList) {
         this.taList = taList;
     }
 }

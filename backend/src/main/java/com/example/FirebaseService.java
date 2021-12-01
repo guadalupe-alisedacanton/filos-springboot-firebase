@@ -1,5 +1,7 @@
 package com.example;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -8,10 +10,7 @@ import com.google.firestore.v1.Write;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -38,6 +37,26 @@ public class FirebaseService {
         else {
             return null;
         }
+    }
+
+    public String getStudentsClasses(String studentEmail) throws InterruptedException, ExecutionException, JsonProcessingException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference studentReference = dbFirestore.collection("students").document(studentEmail);
+        ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = studentReference.get();
+        DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
+        Object objectArray = documentSnapshot.get("currentClasses");
+        String strArray = objectArray.toString().replaceAll("[\\[\\]]", "");
+        List<String> ids = new ArrayList<>(Arrays.asList(strArray.split(",")));
+        String json = "";
+        ObjectMapper mapper = new ObjectMapper();
+        for (int i = 0; i < ids.size(); i++) {
+            DocumentReference classReference = dbFirestore.collection("classes").document(ids.get(i).trim());
+            ApiFuture<DocumentSnapshot> classFuture = classReference.get();
+            DocumentSnapshot classDocumentSnapshot = classFuture.get();
+            Class c = classDocumentSnapshot.toObject(Class.class);
+            json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+        }
+        return json;
     }
 
     public String updateStudent(Student student) throws ExecutionException, InterruptedException {
@@ -83,29 +102,44 @@ public class FirebaseService {
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-//    public String getAllClasses() throws InterruptedException, ExecutionException {
-//        Firestore dbFirestore = FirestoreClient.getFirestore();
-//        ApiFuture<QuerySnapshot> future = dbFirestore.collection("classes").get();
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        List jsonObjectArray = new ArrayList();
-//        for (QueryDocumentSnapshot doc : documents) {
-//            DocumentReference classReference = dbFirestore.collection("classes").document(doc.getId());
-//            ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = classReference.get();
-//            DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
-//            Map obj = new HashMap();
-//            obj.put("name", documentSnapshot.getString("name"));
-//            obj.put("id", documentSnapshot.getString("id"));
-//            obj.put("studentCount", documentSnapshot.getString("studentCount"));
-//            obj.put("professor", documentSnapshot.getString("professor"));
-//            obj.put("location", documentSnapshot.getString("location"));
-//            List<String> studentsEnrolled = (List<String>) documentSnapshot.get("studentsEnrolled");
-//            obj.put("studentsEnrolled", studentsEnrolled);
-//            List<String> taList = (List<String>) documentSnapshot.get("taList");
-//            obj.put("taList", taList);
-//            jsonObjectArray.add(obj);
-//        }
-//        return jsonObjectArray
-//    }
+    public String getAllClasses() throws InterruptedException, ExecutionException, JsonProcessingException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection("classes").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+        for (QueryDocumentSnapshot doc : documents) {
+            DocumentReference classReference = dbFirestore.collection("classes").document(doc.getId());
+            ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = classReference.get();
+            DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
+
+            Class c = documentSnapshot.toObject(Class.class);
+            json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+
+        }
+        return json;
+    }
+
+    public String getEnrolledStudents(String id) throws InterruptedException, ExecutionException, JsonProcessingException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference classReference = dbFirestore.collection("classes").document(id);
+        ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = classReference.get();
+        DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
+        Object objectArray = documentSnapshot.get("studentsEnrolled");
+//        List<Object> strArray = Arrays.asList(objectArray);
+        String strArray = objectArray.toString().replaceAll("[\\[\\]]", "");
+        List<String> emails = new ArrayList<>(Arrays.asList(strArray.split(",")));
+        String json = "";
+        ObjectMapper mapper = new ObjectMapper();
+        for (int i = 0; i < emails.size(); i++) {
+            DocumentReference studentReference = dbFirestore.collection("students").document(emails.get(i).trim());
+            ApiFuture<DocumentSnapshot> studentFuture = studentReference.get();
+            DocumentSnapshot studentDocumentSnapshot = studentFuture.get();
+            Student s = studentDocumentSnapshot.toObject(Student.class);
+            json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(s);
+        }
+        return json;
+    }
 
     public Class getClass(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

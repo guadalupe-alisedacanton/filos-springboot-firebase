@@ -3,6 +3,7 @@ package com.example;
 import org.springframework.stereotype.Component;
 
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -13,7 +14,7 @@ public class Student {
     private String dob;
     private String major;
     private String year;
-    private Set<Class> currentClasses;
+    private List<String> currentClasses;
     private String interests;
     private String linkedIn;
     private String insta;
@@ -33,6 +34,19 @@ public class Student {
         this.insta = insta;
         this.snap = snap;
     }
+//
+//    public Student(String fullName, String email, String dob, String major, String year, Set<Class> currentClasses, String interests, String linkedIn, String insta, String snap) {
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.dob = dob;
+//        this.major = major;
+//        this.year = year;
+//        this.currentClasses = currentClasses;
+//        this.interests = interests;
+//        this.linkedIn = linkedIn;
+//        this.insta = insta;
+//        this.snap = snap;
+//    }
 
     public String getDob() {
         return dob;
@@ -66,7 +80,6 @@ public class Student {
         this.snap = snap;
     }
 
-
     public String getInterests() {
         return interests;
     }
@@ -75,14 +88,13 @@ public class Student {
         this.interests = interests;
     }
 
-    public Set<Class> getCurrentClasses() {
+    public List<String> getCurrentClasses() {
         return currentClasses;
     }
 
-    public void setCurrentClasses(Set<Class> currentClasses) {
+    public void setCurrentClasses(List<String> currentClasses) {
         this.currentClasses = currentClasses;
     }
-
 
     public String getMajor() {
         return major;
