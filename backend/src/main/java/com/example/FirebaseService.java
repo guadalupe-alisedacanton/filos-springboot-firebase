@@ -47,7 +47,7 @@ public class FirebaseService {
         Object objectArray = documentSnapshot.get("currentClasses");
         String strArray = objectArray.toString().replaceAll("[\\[\\]]", "");
         List<String> ids = new ArrayList<>(Arrays.asList(strArray.split(",")));
-        String json = "";
+        String json = "[";
         ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < ids.size(); i++) {
             DocumentReference classReference = dbFirestore.collection("classes").document(ids.get(i).trim());
@@ -55,7 +55,12 @@ public class FirebaseService {
             DocumentSnapshot classDocumentSnapshot = classFuture.get();
             Class c = classDocumentSnapshot.toObject(Class.class);
             json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+            json += ",";
         }
+        StringBuilder sb = new StringBuilder(json);
+        sb.deleteCharAt(sb.length()-1);
+        json = sb.toString();
+        json += "]";
         return json;
     }
 
@@ -107,7 +112,7 @@ public class FirebaseService {
         ApiFuture<QuerySnapshot> future = dbFirestore.collection("classes").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         ObjectMapper mapper = new ObjectMapper();
-        String json = "";
+        String json = "[";
         for (QueryDocumentSnapshot doc : documents) {
             DocumentReference classReference = dbFirestore.collection("classes").document(doc.getId());
             ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = classReference.get();
@@ -115,8 +120,13 @@ public class FirebaseService {
 
             Class c = documentSnapshot.toObject(Class.class);
             json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+            json += ",";
 
         }
+        StringBuilder sb = new StringBuilder(json);
+        sb.deleteCharAt(sb.length()-1);
+        json = sb.toString();
+        json += "]";
         return json;
     }
 
@@ -129,7 +139,7 @@ public class FirebaseService {
 //        List<Object> strArray = Arrays.asList(objectArray);
         String strArray = objectArray.toString().replaceAll("[\\[\\]]", "");
         List<String> emails = new ArrayList<>(Arrays.asList(strArray.split(",")));
-        String json = "";
+        String json = "[";
         ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < emails.size(); i++) {
             DocumentReference studentReference = dbFirestore.collection("students").document(emails.get(i).trim());
@@ -137,7 +147,12 @@ public class FirebaseService {
             DocumentSnapshot studentDocumentSnapshot = studentFuture.get();
             Student s = studentDocumentSnapshot.toObject(Student.class);
             json += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(s);
+            json += ",";
         }
+        StringBuilder sb = new StringBuilder(json);
+        sb.deleteCharAt(sb.length()-1);
+        json = sb.toString();
+        json += "]";
         return json;
     }
 

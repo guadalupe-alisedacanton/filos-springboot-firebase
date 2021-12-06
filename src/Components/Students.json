@@ -1,0 +1,24 @@
+{
+    "students": [
+        {
+            "studentCount": "12",
+            "name": "Information Technology",
+            "id": "CS103"
+        },
+        {
+            "studentCount": "87",
+            "name": "Computer Engineering",
+            "id": "CS287"
+        },
+        {
+            "studentCount": "184",
+            "name": "Biology",
+            "id": "BIO101"
+        },
+        {
+            "studentCount": "257",
+            "name": "Chemistry",
+            "id": "CHEM101"
+        }
+    ]
+}
